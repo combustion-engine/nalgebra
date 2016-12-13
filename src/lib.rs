@@ -67,7 +67,7 @@ an optimized set of tools for computer graphics and physics. Those features incl
 * Linear algebra and data analysis operators: `Covariance`, `Mean`, `qr`, `cholesky`.
 * Almost one trait per functionality: useful for generic programming.
 */
-
+#![feature(proc_macro)]
 #![deny(non_camel_case_types)]
 #![deny(unused_parens)]
 #![deny(non_upper_case_globals)]
@@ -76,7 +76,9 @@ an optimized set of tools for computer graphics and physics. Those features incl
 #![warn(missing_docs)]
 #![doc(html_root_url = "http://nalgebra.org/doc")]
 
-extern crate rustc_serialize;
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
 extern crate rand;
 extern crate num;
 
