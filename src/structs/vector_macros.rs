@@ -1,6 +1,6 @@
 #![macro_use]
 
-macro_rules! vectorlike_impl(
+macro_rules! vectorlike_impl (
     ($t: ident, $dimension: expr, $($compN: ident),+) => (
         componentwise_neg!($t, $($compN),+);
         componentwise_repeat!($t, $($compN),+);
@@ -161,6 +161,13 @@ macro_rules! vectorlike_impl(
             }
         }
 
+        impl<N: Clone> From<[N; $dimension]> for $t<N> {
+            #[inline]
+            fn from(arr: [N; $dimension]) -> $t<N> {
+                From::from(&arr)
+            }
+        }
+
         impl<'a, N> From<&'a mut [N; $dimension]> for &'a mut $t<N> {
             #[inline]
             fn from(arr: &'a mut [N; $dimension]) -> &'a mut $t<N> {
@@ -269,7 +276,7 @@ macro_rules! vectorlike_impl(
     )
 );
 
-macro_rules! vector_impl(
+macro_rules! vector_impl (
     ($t: ident, $tp: ident, $dimension: expr, $($compN: ident),+) => (
         pointwise_add!($t, $($compN),+);
         pointwise_sub!($t, $($compN),+);
@@ -531,7 +538,7 @@ macro_rules! vector_impl(
 );
 
 
-macro_rules! basis_impl(
+macro_rules! basis_impl (
     ($t: ident, $dimension: expr) => (
         impl<N: BaseFloat> Basis for $t<N> {
             #[inline]
@@ -597,7 +604,7 @@ macro_rules! basis_impl(
 
 
 
-macro_rules! from_iterator_impl(
+macro_rules! from_iterator_impl (
     ($t: ident, $param0: ident) => (
         impl<N> FromIterator<N> for $t<N> {
             #[inline]
@@ -619,7 +626,7 @@ macro_rules! from_iterator_impl(
     )
 );
 
-macro_rules! vec_to_homogeneous_impl(
+macro_rules! vec_to_homogeneous_impl (
     ($t: ident, $t2: ident, $extra: ident, $($compN: ident),+) => (
         impl<N: Copy + One + Zero> ToHomogeneous<$t2<N>> for $t<N> {
             fn to_homogeneous(&self) -> $t2<N> {
@@ -633,7 +640,7 @@ macro_rules! vec_to_homogeneous_impl(
     )
 );
 
-macro_rules! vec_from_homogeneous_impl(
+macro_rules! vec_from_homogeneous_impl (
     ($t: ident, $t2: ident, $extra: ident, $($compN: ident),+) => (
         impl<N: Copy + Div<N, Output = N> + One + Zero> FromHomogeneous<$t2<N>> for $t<N> {
             fn from(v: &$t2<N>) -> $t<N> {
@@ -649,7 +656,7 @@ macro_rules! vec_from_homogeneous_impl(
 
 
 // We need to keep this on a separate macro to retrieve the first component nam.
-macro_rules! partial_order_impl(
+macro_rules! partial_order_impl (
     ($t: ident, $comp0: ident $(, $compN: ident)*) => (
         /*
          *
