@@ -320,7 +320,7 @@ pub fn origin<P: Origin>() -> P {
 #[inline]
 pub fn center<N: BaseFloat, P: FloatPoint<N>>(a: &P, b: &P) -> P
         where <P as PointAsVector>::Vector: Norm<NormType = N> {
-    (*a + b.to_vector()) / ::cast(2.0)
+    (*a + b.to_vector()) / cast(2.0)
 }
 
 /*
